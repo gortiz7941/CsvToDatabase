@@ -54,7 +54,7 @@ public class CsvParser {
     reader.close();
   }
 
-   protected void writeCsv(String csvoutfile) {
+  protected void writeCsv(String csvoutfile) {
     // place holder for write method (we'll add later with tests)
   }
 
@@ -67,7 +67,7 @@ public class CsvParser {
             So after getting each row, we will need to "cast" row to a String array (String[])
        */
       for (String fields : (String[]) row) {
-          System.out.print(fields + ", ");
+        System.out.print(fields + ", ");
       }
       System.out.println("\b\b\n---------------------");
     }
@@ -84,4 +84,6 @@ public class CsvParser {
     }
     return true;
   }
+
+
 }
