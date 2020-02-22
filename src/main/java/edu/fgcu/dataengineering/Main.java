@@ -32,8 +32,8 @@ public class Main {
     }*/
 
     // add records into Book table
-/*    dbManager.addBook(infile);
-    dbManager.disconnectFromDB();*/
+    dbManager.addBook(infile);
+    dbManager.disconnectFromDB();
 
   }
 }

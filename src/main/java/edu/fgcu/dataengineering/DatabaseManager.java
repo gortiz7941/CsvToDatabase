@@ -1,9 +1,14 @@
 package edu.fgcu.dataengineering;
 
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -90,15 +95,14 @@ public class DatabaseManager {
   }
 
   void addBook(String infile) {
-    BufferedReader buff = null;
-    String line = "";
-    String cvsSplit = ",";
     System.out.println("Inserting book records into table...");
     try {
-      buff = new BufferedReader((new FileReader(infile)));
-      String header = buff.readLine();
-      while ((line = buff.readLine()) != null) {
-        bookInfo = line.split(cvsSplit);
+      FileInputStream csvStream = new FileInputStream(infile);
+      InputStreamReader inputStream = new InputStreamReader(csvStream,
+          StandardCharsets.UTF_8);
+      CSVReader reader = new CSVReader(inputStream);
+      String[] header = reader.readNext();
+      while ((bookInfo = reader.readNext()) != null) {
         PreparedStatement ps = conn.prepareStatement(
             "INSERT INTO book VALUES ('"
                 + bookInfo[0]
@@ -120,6 +124,8 @@ public class DatabaseManager {
       e.printStackTrace();
       System.out.println("Could not create booking record.");
     } catch (IOException e) {
+      e.printStackTrace();
+    } catch (CsvValidationException e) {
       e.printStackTrace();
     }
 
